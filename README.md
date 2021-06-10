@@ -1,6 +1,6 @@
 # Package Typospotter
 
-This project aims to provide a basis for identifying packages potentially [typosquatting](https://snyk.io/blog/typosquatting-attacks/) within package repository at the point of addition to the package repository.
+This project aims to provide a basis for identifying packages potentially [typosquatting](https://snyk.io/blog/typosquatting-attacks/) within package registry at the point of addition to the registry.
 
 **N.B** The current implementation is quite basic and should not be considered production ready.
 
