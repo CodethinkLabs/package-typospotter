@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/codethinklabs/package-typospotter/internal/pkgmgr"
+	"github.com/codethinklabs/package-typospotter/internal/pkgmgr/npm"
 	"github.com/codethinklabs/package-typospotter/internal/pkgmgr/pypi"
 	"github.com/codethinklabs/package-typospotter/internal/typospotter"
 
@@ -26,6 +27,7 @@ func main() {
 
 	spotter := typospotter.New([]pkgmgr.PackageManager{
 		*pypi.New(),
+		*npm.New(),
 	}, 1)
 
 	for {
