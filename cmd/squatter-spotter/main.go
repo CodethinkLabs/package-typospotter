@@ -2,15 +2,31 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"runtime"
 	"time"
 
 	"github.com/codethinklabs/package-typospotter/internal/pkgmgr"
 	"github.com/codethinklabs/package-typospotter/internal/pkgmgr/pypi"
 	"github.com/codethinklabs/package-typospotter/internal/typospotter"
+
+	_ "net/http/pprof"
 )
 
+func hostPprof() {
+	runtime.SetCPUProfileRate(100)
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+}
+
 func main() {
-	spotter := typospotter.New([]pkgmgr.PackageManager{*pypi.New()}, 1)
+	hostPprof()
+
+	spotter := typospotter.New([]pkgmgr.PackageManager{
+		*pypi.New(),
+	}, 1)
 
 	for {
 		fmt.Println("Polling for potential typosquatters...")
