@@ -37,6 +37,7 @@ func New(pkgMgrs []pkgmgr.PackageManager, distanceThreshold int) *TypoSpotter {
 		distanceThreshold: distanceThreshold,
 		previousPkgs:      map[pkgmgr.PackageManager]pkgmgr.PackageSet{},
 	}
+	fmt.Println("Polling to initialize registry package lists...")
 	spotter.PollAndCheck()
 	return spotter
 }
@@ -71,7 +72,7 @@ func (spotter *TypoSpotter) pollMgr(mgr pkgmgr.PackageManager, resultChan chan<-
 
 	lastPkgs, ok := spotter.previousPkgs[mgr]
 	if ok {
-		diff := pkgs.Difference(lastPkgs)
+		diff := pkgs.ListNewPackages(lastPkgs)
 		fmt.Printf("Polling complete, found %v packages in %s, %v are new packages\n", len(pkgs), mgr.GetName(), len(diff))
 		for _, newPkg := range diff {
 			for _, pkg := range lastPkgs {

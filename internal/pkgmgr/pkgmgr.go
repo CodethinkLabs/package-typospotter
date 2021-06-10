@@ -7,19 +7,16 @@ type PackageManager interface {
 	ListPackages() (PackageSet, error)
 }
 
-func (set PackageSet) Difference(packages PackageSet) []string {
-	diff := []string{}
-	for _, sa := range set {
-		found := false
-		for _, sb := range packages {
-			if sa == sb {
-				found = true
-				break
-			}
-		}
-		if !found {
-			diff = append(diff, sa)
+func (set PackageSet) ListNewPackages(latestPkgSet PackageSet) []string {
+	newPkgs := []string{}
+	oldPkgMap := map[string]int{}
+	for i, pkg := range set {
+		oldPkgMap[pkg] = i
+	}
+	for _, pkg := range latestPkgSet {
+		if _, ok := oldPkgMap[pkg]; !ok {
+			newPkgs = append(newPkgs, pkg)
 		}
 	}
-	return diff
+	return newPkgs
 }
